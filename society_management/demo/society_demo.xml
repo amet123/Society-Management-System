@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<!-- Demo data for Society Division -->
+        <record id="society_division_1" model="society.division">
+            <field name="name">A</field>
+            <field name="house_area">250 Sq Ft</field>
+            <field name="house_bhk">3 BHK</field>
+        </record>
+
+		<record id="society_division_2" model="society.division">
+            <field name="name">B</field>
+            <field name="house_area">150 Sq Ft</field>
+            <field name="house_bhk">2 BHK</field>
+        </record>
+
+		<record id="society_division_3" model="society.division">
+            <field name="name">C</field>
+            <field name="house_area">200 Sq Ft</field>
+            <field name="house_bhk">2 BHK</field>
+            <!--
+            <field name="image" type="base64" file="society_management/static/img/div3_image.jpg"/>
+            -->
+        </record>
+
+		<!-- Demo data for partner -->
+		<record id="res_partner_1" model="res.partner">
+            <field name="name">Pankaj Goyani</field>
+            <field name="email">goyanipankaj13@gmail.com</field>
+            <field name="image" type="base64" file="society_management/static/img/partner1_image.jpg"/>
+        </record>
+
+		<record id="res_partner_2" model="res.partner">
+            <field name="name">Hardik Goyani</field>
+            <field name="email">hardikgoyani@gmail.com</field>
+            <!--
+            <field name="image" type="base64" file="society_management/static/img/div2_image.jpg"/>
+            -->
+        </record>
+
+		<record id="res_partner_3" model="res.partner">
+            <field name="name">Pankaj patel</field>
+            <field name="email">goyanipankaj138@gmail.com</field>
+            <!--
+            <field name="image" type="base64" file="society_management/static/img/div3_image.jpg"/>
+            -->
+        </record>
+
+		<record id="res_partner_4" model="res.partner">
+            <field name="name">Vishal Patel</field>
+            <field name="email">vishalpatel@gmail.com</field>
+        </record>
+
+		<!-- Demo data for Home Details -->
+        <record id="home_details_1" model="home.details">
+            <field name="home_no">A101</field>
+            <field name="owner_id" ref="res_partner_1" />
+            <field eval="time.strftime('%Y-%m-%d')" name="date"/>
+            <field name="contact_no">+91 9574986507</field>
+            <field name="society_division_id" ref="society_division_1" />
+            <field name="no_persion">3</field>
+        </record>
+        
+		<record id="home_details_2" model="home.details">
+            <field name="home_no">A102</field>
+            <field name="owner_id" ref="res_partner_2" />
+            <field eval="time.strftime('%Y-%m-%d')" name="date"/>
+            <field name="contact_no">+91 9574986502</field>
+            <field name="society_division_id" ref="society_division_1" />
+            <field name="no_persion">2</field>
+        </record>
+		<record id="home_details_3" model="home.details">
+            <field name="home_no">B101</field>
+            <field name="owner_id" ref="res_partner_3" />
+            <field eval="time.strftime('%Y-%m-%d')" name="date"/>
+            <field name="contact_no">+91 9574986503</field>
+            <field name="society_division_id" ref="society_division_2" />
+            <field name="no_persion">4</field>
+        </record>
+		<record id="home_details_4" model="home.details">
+            <field name="home_no">C101</field>
+            <field name="owner_id" ref="res_partner_4" />
+            <field eval="time.strftime('%Y-%m-%d')" name="date"/>
+            <field name="contact_no">+91 9574986504</field>
+            <field name="society_division_id" ref="society_division_3" />
+            <field name="no_persion">2</field>
+        </record>
+
+		<!-- Demo data for Vehicle Details -->
+		<record id="vehicle_details_1" model="vehicle.details">
+            <field name="vehicle_name">Honda City</field>
+            <field name="vehicle_type">car</field>
+            <field name="vehicle_number">Gj A1 8575</field>
+            <field name="home_id" ref="home_details_1" />
+        </record>
+        <record id="vehicle_details_2" model="vehicle.details">
+            <field name="vehicle_name">Honda City</field>
+            <field name="vehicle_type">two_vehicle</field>
+            <field name="vehicle_number">Gj A2 8970</field>
+            <field name="home_id" ref="home_details_1" />
+        </record>
+        <record id="vehicle_details_3" model="vehicle.details">
+            <field name="vehicle_name">Honda City</field>
+            <field name="vehicle_number">bicycle</field>
+            <field name="home_id" ref="home_details_1" />
+        </record>
+
+		<record id="vehicle_details_4" model="vehicle.details">
+            <field name="vehicle_name">Maruti Suzuki</field>
+            <field name="vehicle_type">car</field>
+            <field name="vehicle_number">Gj W2 0909</field>
+            <field name="home_id" ref="home_details_2" />
+        </record>
+		<record id="vehicle_details_5" model="vehicle.details">
+            <field name="vehicle_name">Maruti Suzuki</field>
+            <field name="vehicle_type">two_vehicle</field>
+            <field name="vehicle_number">Gj R5 6734</field>
+            <field name="home_id" ref="home_details_2" />
+        </record>
+
+		<record id="vehicle_details_6" model="vehicle.details">
+            <field name="vehicle_name">Swift</field>
+            <field name="vehicle_type">car</field>
+            <field name="vehicle_number">Gj W9 5490</field>
+            <field name="home_id" ref="home_details_3" />
+        </record>
+
+		<record id="vehicle_details_7" model="vehicle.details">
+            <field name="vehicle_name">Alto</field>
+            <field name="vehicle_type">car</field>
+            <field name="vehicle_number">Gj C9 7677</field>
+            <field name="home_id" ref="home_details_4" />
+        </record>
+
+		<!-- Demo data for Meter Meter -->
+		<!--
+		<record id="meter_meter_1" model="meter.meter">
+            <field name="meter_no">MxP A0001</field>
+            <field name="owner_id" ref="res_partner_1"/>
+            <field name="home_id" ref="home_details_1"/>
+            <field name="society_division_id" ref="society_division_1"/>
+            <field eval="time.strftime('%Y-%m-%d')" name="conn_date"/>
+            <field eval="1200.0" name="conn_fees"/>
+            <field name="is_active">True</field>
+            <field name="state">active</field>
+        </record>
+        <record id="meter_meter_2" model="meter.meter">
+            <field name="meter_no">MxP A0002</field>
+            <field name="owner_id" ref="res_partner_2"/>
+            <field name="home_id" ref="home_details_2"/>
+            <field name="society_division_id" ref="society_division_2"/>
+            <field eval="time.strftime('%Y-%m-%d')" name="conn_date"/>
+            <field eval="1200.0" name="conn_fees"/>
+            <field name="is_active">True</field>
+            <field name="state">active</field>
+        </record>
+        <record id="meter_meter_3" model="meter.meter">
+            <field name="meter_no">MxP B0001</field>
+            <field name="owner_id" ref="res_partner_3"/>
+            <field name="home_id" ref="home_details_3"/>
+            <field name="society_division_id" ref="society_division_3"/>
+            <field eval="time.strftime('%Y-%m-%d')" name="conn_date"/>
+            <field eval="1200.0" name="conn_fees"/>
+            <field name="is_active">True</field>
+            <field name="state">active</field>
+        </record>
+        <record id="meter_meter_4" model="meter.meter">
+            <field name="meter_no">MxP C0001</field>
+            <field name="owner_id" ref="res_partner_4"/>
+            <field name="home_id" ref="home_details_4"/>
+            <field name="society_division_id" ref="society_division_3"/>
+            <field eval="time.strftime('%Y-%m-%d')" name="conn_date"/>
+            <field eval="1200.0" name="conn_fees"/>
+            <field name="is_active">True</field>
+            <field name="state">active</field>
+        </record>
+		-->
+
+		<!-- Demo data for Water Meter Configuration -->
+		<record id="water_meter_config_1" model="water.meter.config">
+            <field eval="time.strftime('%Y-01--01')" name="date_start"/>
+            <field eval="time.strftime('%Y-12-31')" name="date_stop"/>
+            <field name="is_active">True</field>
+            <field eval="5.0" name="per_unit_charge"/>
+        </record>
+
+    </data>
+</openerp>

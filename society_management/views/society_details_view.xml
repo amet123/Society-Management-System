@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+    <!-- Tree View of Society Division Details-->
+        <record id="view_society_division_tree" model="ir.ui.view">
+            <field name="name">society.division.tree</field>
+            <field name="model">society.division</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Home Details">
+                	<field name="name"/>
+                	<field name="house_area"/>
+                	<field name="house_bhk"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View of Society Division Details -->
+        <record id="view_society_division_form" model="ir.ui.view">
+			<field name="name">society.division.form</field>
+            <field name="model">society.division</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Society Division Details">
+					<sheet>
+						<div class="oe_title oe_left" style="width: 500px;">
+                            <field name="image" widget="image" class="oe_avatar oe_left"/>
+                            <label string="Division Name" style="padding-left:5px"/>
+                            <h1>
+		                        <field name="name" class="oe_inline" placeholder="Ex. A, B, C" style="padding-top:5px;padding-left:5px" required="1"/>
+		                    </h1>
+                        </div>
+						<group colspan="4" col="4">
+		                	<field name="house_area" required="1" placeholder="Ex. 250 sq ft."/>
+		                	<field name="house_bhk" required="1" placeholder="Ex. 2BHK"/>
+		                	<field name="floor"/>
+		                	<field name="is_lift"/>
+		                	<field name="is_configured"/>
+		                	<field name="lift" invisible="1"/>
+		                	<field name="no_of_house" invisible="1"/>
+		                </group>
+		                <notebook>
+							<page string="Home Details">
+								<field name="home_details_ids">
+									<tree string="Home Details" create='false' edit='false'>
+					                	<field name="home_no"/>
+					                	<field name="owner_id"/>
+					                	<field name="contact_no"/>
+					                </tree>
+					    		</field>
+					    	</page>
+					    </notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+		<!-- Kanban View of Society Division Details -->
+		<record model="ir.ui.view" id="view_society_division_kanban">
+	        <field name="name">Society Division</field>
+	        <field name="model">society.division</field>
+	        <field name="priority">10</field>
+	        <field name="arch" type="xml">
+	            <kanban class="oe_background_grey">
+	                <field name="name"/>
+	                <field name="house_area"/>
+	                <field name="house_bhk"/>
+	                <field name="no_of_house"/>
+	                <field name="floor"/>
+	                <field name="lift"/>
+	                <field name="color"/>
+	                <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card"
+                                   style="width:150px;">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <li t-if="widget.view.is_action_enabled('edit')"><a type="edit">Division Settings</a></li>
+                                        <li t-if="widget.view.is_action_enabled('delete')"><a type="delete">Delete</a></li>
+                                        <li t-if="widget.view.is_action_enabled('edit')"><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <h4 class="text-center" name="name"><strong><field name="name"/></strong></h4>
+                                    <div class="oe_kanban_vignette oe_semantic_html_override">
+                                        <a type="open">
+	                                        <img t-att-src="kanban_image('society.division', 'image', record.id.value)" 
+	                                            t-att-data-member_id="member" style="width:110px;height:110px;"/>
+                                        </a>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                    <div><h4></h4></div>
+                                    <div class="oe_kanban_vignette oe_semantic_html_override">
+		                                <ul>
+		                                    <li><strong>Flat : </strong><field name="house_bhk"/></li>
+		                                    <li>
+		                                        <strong>From : </strong><field name="home_from"/> - <field name="home_to"/>
+		                                    </li>
+		                                    <li><strong>Total : </strong><field name="no_of_house"/></li>
+		                                    <li><strong>Floor : </strong><field name="floor"/></li>
+		                                    <li><strong>Lift : </strong><field name="lift"/></li>
+		                                    <strong>Area : </strong><field name="house_area"/>
+		                                </ul>
+		                            </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+	            </kanban>
+	        </field>
+	    </record>
+
+
+		<!-- Society Division Details Menuitems -->
+        <record id="action_society_division" model="ir.actions.act_window">
+           <field name="name">Divisions</field>
+           <field name="res_model">society.division</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">kanban,tree,form</field>
+           <field name="view_id" ref="view_society_division_kanban"/>
+           <field name="domain">[]</field>
+           <field name="help">Society division details management.......</field>
+        </record>
+
+    	<!-- Tree View of Home Details-->
+        <record id="view_home_details_tree" model="ir.ui.view">
+            <field name="name">home.details.tree</field>
+            <field name="model">home.details</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Home Details">
+                    <field name="home_no"/>
+                    <field name="owner_id"/>
+                    <field name="contact_no"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View of Home Details -->
+        <record id="view_home_details_form" model="ir.ui.view">
+            <field name="name">home.details.form</field>
+            <field name="model">home.details</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Home Details">
+                    <sheet>
+                        <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                        <div class="oe_title oe_left">
+	                        <h1>
+	                            <field name="home_no" default_focus="1" placeholder="House Number" />
+	                        </h1>
+	                    </div>
+                        <h1>
+	                        <button name="create_meter" type="object" string="Create Meter"
+	                        	class="oe_stat_button oe_right" icon="fa-pencil-square-o" 
+								attrs="{'invisible':[('is_active_meter','=',True)]}"/>
+	                        <button name="create_meter" type="object" string="Replace Meter"
+	                        	class="oe_stat_button oe_right" icon="fa-pencil-square-o" 
+								attrs="{'invisible':[('is_active_meter','=',False)]}" context="{'is_replace_meter':True}"/>
+	                    </h1>
+						<group>
+							<group colspan="4" col="4">
+			                	<field name="owner_id" />
+			                	<field name="date"/>
+								<field name="contact_no"/>
+								<field name="society_division_id"/>
+								<field name="no_persion"/>
+								<field name="is_active_meter" invisible="1"/>
+								<field name="is_replace_meter" invisible="1"/>
+					        </group>
+					        <label string='This Section Use For Meter Details......' style='color:gray;font-size:18px;'/>
+					        <newline/>
+					        <group >
+			                	<field name="meter_id" readonly="1"/>
+			                	<field name="vehicle_list" invisible="1"/>
+					        </group>
+						</group>
+						<notebook>
+							<page string="Water Meter Reading">
+								<field name="water_meter_ids">
+									<tree string="Water Meter Reading Details" editable="bottom" create='false' edit='false'>
+										<field name="prev_reading_date" required="1"/>
+										<field name="prev_reading_unit" required="1"/>
+										<field name="curr_reading_date" required="1"/>
+										<field name="curr_reading_unit" required="1"/>
+										<field name="per_unit_charge" required="1"/>
+										<field name="total_use_reading" required="1"/>
+										<field name="total" required="1"/>
+					                </tree>
+					    		</field>
+					    	</page>
+							<page string="Vehicle Line">
+								<field name="vehicle_ids">
+									<tree string="Vehicle Details" editable="bottom">
+										<field name="vehicle_name" required="1"/>
+										<field name="vehicle_type" required="1"/>
+										<field name="vehicle_number" attrs="{'invisible': [('vehicle_type','=','bicycle')],
+											'required':[('vehicle_type','!=','bicycle')]}"/>
+					                </tree>
+					    		</field>
+					    	</page>
+					    	<page string="Credit Debit Details">
+								<group colspan="4" col="4">
+									<field name="bill_sqn_no" readonly="1"/>
+									<field name="payment_date" readonly="1"/>
+				                	<field name="pre_credit_amount" readonly="1"/>
+				                	<field name="pre_debit_amount" readonly="1"/>
+						        </group>
+					    	</page>
+						</notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Kanban View of Home Details -->
+		<record model="ir.ui.view" id="view_home_details_kanban">
+	        <field name="name">home.details</field>
+	        <field name="model">home.details</field>
+	        <field name="priority">10</field>
+	        <field name="arch" type="xml">
+	            <kanban class="oe_background_grey" default_group_by="society_division_id">
+	                <field name="home_no"/>
+                    <field name="owner_id"/>
+                    <field name="contact_no"/>
+                    <field name="vehicle_list"/>
+                    <field name="meter_id"/>
+	                <field name="color"/>
+	                <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click"
+                                 style="width:230px;">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <li t-if="widget.view.is_action_enabled('edit')"><a type="edit">Houses Settings</a></li>
+                                        <li t-if="widget.view.is_action_enabled('delete')"><a type="delete">Delete</a></li>
+                                        <li t-if="widget.view.is_action_enabled('edit')"><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_vignette oe_semantic_html_override">
+                                    <h4 class="text-center" name="home_no"><strong><field name="home_no"/></strong></h4>
+                                    <div class="oe_clear"></div>
+                                    <div class="oe_kanban_vignette oe_semantic_html_override">
+                                        <a type="open">
+	                                        <img t-att-src="kanban_image('society.division', 'image', record.id.value)" 
+	                                            t-att-data-member_id="member" style="width:110px;height:110px;"/>
+                                        </a>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                    <div><h4></h4></div>
+                                    <div class="oe_kanban_vignette oe_semantic_html_override">
+	                                    <ul>
+	                                        <strong>Name : </strong><field name="owner_id"/>
+	                                        <li><strong>Contact : </strong><field name="contact_no"/></li>
+	                                        <li><strong>Vehicles : </strong><field name="vehicle_list"/></li>
+	                                        <li><strong>Meter No : </strong><field name="meter_id"/></li>
+	                                    </ul>
+	                                </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+	            </kanban>
+	        </field>
+	    </record>
+
+		<!-- Search View of Home Details -->
+		<record id="view_home_details_search" model="ir.ui.view">
+            <field name="name">home.details.search</field>
+            <field name="model">home.details</field>
+            <field name="arch" type="xml">
+                <search string="Search Home Details">
+                    <group expand="1" string="Group By...">
+						<filter string="Division" icon="terp-personal" domain="[]" context="{'group_by':'society_division_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+		<!-- Home Details Menuitems -->
+       	<record id="action_home_details" model="ir.actions.act_window">
+           <field name="name">Houses</field>
+           <field name="res_model">home.details</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">kanban,tree,form</field>
+           <field name="view_id" ref="view_home_details_kanban"/>
+           <field name="domain">[]</field>
+           <field name="help">Here home details record management .......</field>
+        </record>
+
+		<!-- Tree View of Society Funds Details-->
+        <record id="view_society_funds_tree" model="ir.ui.view">
+            <field name="name">society.funds.tree</field>
+            <field name="model">society.funds</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Society Funds Details">
+                	<field name="seq_no"/>
+					<field name="prev_month_funds"/>
+                	<field name="total"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View of Society Funds Details -->
+        <record id="view_society_funds_form" model="ir.ui.view">
+			<field name="name">society.funds.form</field>
+            <field name="model">society.funds</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Society Funds Details">
+					<sheet>
+						<h1>
+	                        <label string="Total Society Funds"/>
+	                    </h1>
+						<group colspan="4" col="4">
+							<field name="seq_no" required="1"/>
+							<field name="date" required="1"/>
+							<field name="prev_month_funds"/>
+		                	<field name="total"/>
+		                </group>
+		                <notebook>
+		                	<page string="Funds Details">
+		                		<field name="soc_funds_line_ids">
+									<tree string="Society Funds Line" create="false" edit="false" >
+			                			<field name="seq_no"/>
+										<field name="date"/>
+					                	<field name="total"/>
+					                </tree>
+		                		</field>
+		                	</page>
+		                </notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Society Funds Details Menuitems -->
+       	<record id="action_society_funds" model="ir.actions.act_window">
+           <field name="name">Funds</field>
+           <field name="res_model">society.funds</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_society_funds_tree"/>
+           <field name="domain">[]</field>
+           <field name="help">Society funds Mmnagement details ......</field>
+        </record>
+
+        <!-- Menu items -->
+
+		<!-- Society Menu Main -->
+        <menuitem name="Society" id="society_management_main_menu" sequence="1"/>
+
+        <!-- Society Details Menu Item -->
+        <menuitem name="Society Details" id="society_details_menu" parent="society_management_main_menu" sequence="1"/>
+
+        <menuitem action="action_society_division" id="society_division_menu" parent="society_details_menu"/>
+        <menuitem action="action_home_details" id="home_details_menu" parent="society_details_menu"/>
+        <menuitem action="action_society_funds" id="society_funds_menu" parent="society_details_menu"/>
+    </data>
+</openerp>

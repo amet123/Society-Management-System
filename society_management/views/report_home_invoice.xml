@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+	<data>
+		<template id="report_society_invoice">
+			<t t-call="report.html_container"> 
+				<t t-foreach="docs" t-as="o">
+					<t t-name="report.external_layout_header">
+		                <div class="header" style="width:100%; margin:0 auto;">
+		                    <div class="row">
+								<div style="margin-top:45px;float:left; padding-left:5px;font-size:11px;">
+		                        	Invoice : <span t-field="o.seq_no"/>
+		                        </div>
+		                        <div style="margin-top:8px;float:right; padding-right:5px;">
+		                            <img src="/society_management/static/img/company_logo.png" height="49px;" width="75px;"/><br/>
+		                        </div>
+		                    </div>
+		                    <div class="row zero_min_height">
+		                        <div class="col-xs-17">
+		                            <div style="border-bottom: 1px solid green;" />
+		                        </div>
+		                    </div>
+		                </div>
+		            </t>
+		            <t t-name="report.external_layout_footer">
+		                <div class="footer" style="width:100%; margin:0 auto;">
+		                    <div class="row" >
+		                        <table width="100%">
+		                            <tr><div style="border-bottom: 1px solid green;" />
+		                            	<td style="text-align:left;" width="25%">
+		                                    <span style="font-size:10px; text-align:left;">Gmail : goyanipankaj13@gmail.com</span>
+		                                </td>
+		                                <td style="text-align:right;" width="25%">
+		                                    <span style="font-size:10px; text-align;">Supported by Pankaj Goyani</span>
+		                                </td>
+		                            </tr>
+		                        </table>
+		                    </div>
+		                    <div style="clear:both;"/>
+		                </div>
+		            </t>
+		            
+					<div class="page">
+						<div class="oe_structure"/>
+						<div class="row">
+							<br/><br/><br/>
+							<table width="100%" style="font-size:11px;">
+								<tr>
+									<td><div style="float:right; padding-right:5px;">
+											<t t-if="o.home_no">&#9658; Home No : <span t-field="o.home_no" /><br/></t>
+											<t t-if="o.owner_id.name">&#9658; Owner Name : <span t-field="o.owner_id.name" /><br/></t>
+											<t t-if="o.payment_date">&#9658; Payment Date : <span t-field="o.payment_date" t-field-options='{"format": "dd/MM/Y"}'/></t>
+										</div>
+									</td>
+								</tr>
+							</table>
+							<center style="font-size:12px"><b>Expense Details</b></center>
+							<table style="border:1px solid;font-size:11px;float:right" width="40%">
+								<tr>
+									<td width="26%" style="border:1px solid;padding-left:5px;text-align:left;">Electricity</td>
+									<td width="14%" style="border:1px solid;padding-right:5px;text-align:right;"><span t-field="o.soc_electricity_bill"/></td>
+								</tr>
+								<tr>
+									<td style="border:1px solid;padding-left:5px;text-align:left;">Security</td>
+									<td style="border:1px solid;padding-right:5px;text-align:right;"><span t-field="o.guard_salary"/></td>
+								</tr>
+								<tr>
+									<td style="border:1px solid;padding-left:5px;text-align:left;">Oter Expenses</td>
+									<td style="border:1px solid;padding-right:5px;text-align:right;"><span t-field="o.soc_maintenance"/></td>
+								</tr>
+							</table>
+							<table><tr><td><br/><br/><br/></td></tr></table>
+							<table width="100%" style="border:1px solid;font-size:11px;">
+								<tr t-if="o.is_use_water_meter"><center>Water Meter Details</center></tr>
+								<tr>
+									<td width="10%" style="border:1px solid;text-align:center;">Previous Reading Date</td>
+									<td width="10%" style="border:1px solid;text-align:center;">Previous Reading</td>
+									<td width="10%" style="border:1px solid;text-align:center;">Latest Reading Date</td>
+									<td width="10%" style="border:1px solid;text-align:center;">Latest Reading</td>
+									<td width="10%" style="border:1px solid;text-align:center;">Per Unit</td>
+									<td width="10%" style="border:1px solid;text-align:center;">Consumption</td>
+									<td width="10%" style="border:1px solid;text-align:center;">Total</td>
+								</tr>
+								<tr>
+									<td style="border:1px solid;text-align:center;"><span t-field="o.prev_meter_reading_date"/></td>
+									<td style="border:1px solid;text-align:right;padding-right:5px;"><span t-field="o.prev_meter_reading" /></td>
+									<td style="border:1px solid;text-align:center;"><span t-field="o.curr_reading_date"/></td>
+									<td style="border:1px solid;text-align:right;padding-right:5px;"><span t-field="o.curr_meter_reading"/></td>
+									<td style="border:1px solid;text-align:right;padding-right:5px;"><span t-field="o.per_unit_charge"/></td>
+									<td style="border:1px solid;text-align:right;padding-right:5px;"><span t-field="o.total_use_reading"/></td>
+									<td style="border:1px solid;text-align:right;padding-right:5px;"><span t-field="o.total_charge"/></td>
+								</tr>
+							</table>
+							<table><tr><td><br/></td></tr></table>
+							<div class="row">
+				                <div class="col-xs-4 pull-right">
+				                    <table class="table table-condensed" style="font-size:10px;">
+				                    	<tr class="border-black">
+				                    		<t t-if="o.pre_credit_amount &gt; 0">
+												<td>Previous Credit</td>
+												<td style="text-align:right;"><span t-field="o.pre_credit_amount"/></td>
+											</t>
+											<t t-if="o.pre_debit_amount &gt; 0">
+												<td>Previous Debit</td>
+												<td style="text-align:right;"><span t-field="o.pre_debit_amount" /></td>
+											</t>
+											<t t-if="o.pre_credit_amount == 0 and o.pre_debit_amount == 0">
+												<td>Previous</td>
+												<td style="text-align:right;">0.0</td>
+											</t>
+				                    	</tr>
+				                        <tr class="border-black">
+				                            <td><strong>Total Amount</strong></td>
+				                            <td class="text-right">
+				                                <span t-field="o.total_expense_amount"/>
+				                            </td>
+				                        </tr>
+				                        <tr class="border-black">
+				                            <td><strong>Paid Amount</strong></td>
+				                            <td class="text-right">
+				                                <span t-field="o.paid_amount"/>
+				                            </td>
+				                        </tr>
+				                        <tr>
+											<t t-if="o.credit &gt; 0">
+				                            	<td>Credit</td>
+				                            	<td class="text-right">
+					                                <span t-field="o.credit"/>
+				                            	</td>
+				                            </t>
+				                            <t t-if="o.debit &lt; 0">
+				                            	<td style="color:grey;">Debit</td>
+				                            	<td class="text-right" style="color:grey;">
+					                                <span t-field="o.debit"/>
+				                            	</td>
+				                            </t>
+				                        </tr>
+				                    </table>
+				                </div>
+							</div>
+						</div>
+					</div>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>

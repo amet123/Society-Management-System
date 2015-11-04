@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+		<!-- Tree View of Society Complaints Details-->
+        <record id="view_society_complaints_tree" model="ir.ui.view">
+            <field name="name">society.complaints.tree</field>
+            <field name="model">society.complaints</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Society Complaints Details" colors="grey:state=='done';">
+                	<field name="complaints_no"/>
+                	<field name="complainer_name"/>
+					<field name="title" />
+                	<field name="home_id"/>
+                	<field name="date_complaints"/>
+                	<field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View of Society Complaints Details -->
+        <record id="view_society_complaints_form" model="ir.ui.view">
+			<field name="name">society.complaints.form</field>
+            <field name="model">society.complaints</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Society Complaints Details">
+					<header>
+						<field name="state" widget="statusbar" statusbar_visible="draft,progress,done"/>
+					</header>
+					<sheet>
+						<h1>
+	                        <field name="complaints_no" placeholder="Complaints Number" readonly="1" style="text-align:right;"/>
+	                        <newline/>
+	                        <field name="title" placeholder="Complaints Title"/>
+	                    </h1>
+						<group colspan="4" col="4">
+		                	<field name="complainer_name" placeholder="Name of complainer"/>
+		                	<field name="date_complaints" readonly="1"/>
+		                	<field name="home_id" placeholder="Home Number"/>
+		                	<field name="owner_id" placeholder="Owner Name" readonly="1"/>
+		                	<field name="day_problem" placeholder="Days of Problem"/>
+		                	<field name="problem_reason" placeholder="Reason of problem"/>
+		                	<field name="prob_process_days" placeholder="Ex. 2-3 days"/>
+		                	<field name="review" widget="priority" />
+		                </group>
+		                <notebook>
+		                	<page string="Notes">
+		                		<field name="note" nolabel="1" placeholder="Additional Information"/>
+		                	</page>
+		                </notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Society Complaints Details Menuitems -->
+        <record id="action_society_complaints" model="ir.actions.act_window">
+           <field name="name">Complaints</field>
+           <field name="res_model">society.complaints</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_society_complaints_tree"/>
+           <field name="domain">[]</field>
+           <field name="help">Society complaints record management ......</field>
+        </record>
+
+
+        <!-- Menu items -->
+
+        <!-- Society Complaints Menu Item -->
+        <menuitem name="Complaints Details" id="society_complaints_details_menu" parent="society_management_main_menu" sequence="2"/>
+        <menuitem action="action_society_complaints" id="society_complaints_menu" parent="society_complaints_details_menu"/>
+
+   </data>
+</openerp>

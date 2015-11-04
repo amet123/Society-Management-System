@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+		<!-- Tree View of Expense Contract Details-->
+        <record id="view_expense_contract_tree" model="ir.ui.view">
+            <field name="name">expense.contract.tree</field>
+            <field name="model">expense.contract</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Details" colors="grey:state=='done';">
+                	<field name="number"/>
+                	<field name="start_date"/>
+                	<field name="end_date"/>
+                	<field name="period"/>
+                	<field name="total"/>
+                	<field name="total_per_house"/>
+                	<field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View of Expense Contract Details -->
+        <record id="view_expense_contract_form" model="ir.ui.view">
+			<field name="name">expense.contract.form</field>
+            <field name="model">expense.contract</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Expense Contract Details">
+					<header>
+						<button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+						confirm="Are you sure want to Order Confirm?" attrs="{'invisible': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+						<button name="action_generate_invoice" string="Generate Invoice" type="object" class="oe_highlight"
+						confirm="Are you sure want to Generate Invoices?" attrs="{'invisible': ['|',('state','in',('draft','gen_invoices','done'))]}" />
+						<button name="action_done" string="Done" type="object" class="oe_highlight" states="gen_invoices" 
+						confirm="Are you sure want to Order Done?"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,gen_invoices,done"/>
+					</header>
+					<sheet>
+						<h1>
+	                        <field name="number" class="oe_inline" readonly="1"/>
+	                    </h1>
+						<group>
+							<group colspan="4" col="4">
+			                	<field name="start_date" attrs="{'readonly': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+			                	<field name="end_date" attrs="{'readonly': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+			                	<field name="period"/>
+			                </group>
+			                <group colspan="4" col="4" string="Per House Apply Expense">
+								<field name="per_home_expenses" attrs="{'readonly': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+					        </group>
+			                <group colspan="4" col="4" string="Total Expense of Duration">
+								<field name="soc_electricity_bill" attrs="{'readonly': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+								<field name="guard_salary" attrs="{'readonly': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+								<field name="soc_maintenance" attrs="{'readonly': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+					        </group>
+					        <group colspan="4" col="4">
+					        	<field name="society_division_id" 
+					        	on_change="onchange_society_division(society_division_id,context)"
+					        	attrs="{'readonly': ['|',('state','in',('confirm','gen_invoices','done'))]}"/>
+					        	<field name="no_house"/>
+					        	<field name="total_per_house"/>
+					        	<field name="remain_inv_paid" attrs="{'invisible': [('is_saved','=',False)]}"/>
+                                <field name="total" invisible="1"/>
+                                <field name="is_saved" invisible="1"/>
+                            </group>
+						</group>
+						<notebook>
+							<page string="Invoice Line">
+								<field name="expense_line_ids">
+									<tree string="Houses Invoice Details" editable="bottom" create='false' edit='false'>
+										<field name="home_id"/>
+					                	<field name="owner_id"/>
+					                	<field name="payment_date"/>
+					                	<field name="total_expense_amount"/>
+					                	<field name="paid_amount"/>
+					                	<field name="credit"/>
+					                	<field name="debit"/>
+					                </tree>
+					                <form string="Houses Invoice Details" create='false' edit='false'>
+										<group string="Invoice Details" colspan="4" col="4">
+											<h1><field name="home_id"/></h1>
+											<newline/>
+						                	<field name="owner_id"/>
+						                	<field name="payment_date"/>
+						                	<field name="total"/>
+						                	<newline/>
+						                	<field name="total_expense_amount"/>
+						                	<field name="paid_amount"/>
+						                	<field name="credit"/>
+						                	<field name="debit"/>
+										</group>
+					                </form>
+					        	</field>
+					        	<group class="oe_subtotal_footer oe_right" name="total" colspan="2">
+	                                <field name="total_collect_amount" options="{'currency_field': 'currency_id'}"/>
+	                                <field name="total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+	                            	<div class="oe_subtotal_footer_separator oe_inline">
+	                                    <label for="total_remain_amount" />
+	                                </div>
+	                                <field name="total_remain_amount" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+								</group>
+	                            <div class="oe_clear"/>
+                            <field name="notes" class="oe_inline" invisible="1"/>
+							</page>
+							<page string="Notes">
+								<group>
+									<field name="notes" nolabel="1"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Search View of Expense Contract -->
+		<record id="view_expense_contract_search" model="ir.ui.view">
+            <field name="name">expense.contract.search</field>
+            <field name="model">expense.contract</field>
+            <field name="arch" type="xml">
+                <search string="Search Expense Contract Details">
+                    <group expand="1" string="Group By...">
+                        <filter string="Done" icon="terp-personal" domain="[('state','!=','done')]" 
+                        name="done_order_filter" help="Filter By Done Order" />
+                        <separator/>
+						<filter string="End Date" domain="[]" name="end_date_filter" context="{'group_by':'end_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+		<!-- Expense Contract Details Menuitems -->
+       	<record id="action_expense_contract" model="ir.actions.act_window">
+           <field name="name">Expenses Contract</field>
+           <field name="res_model">expense.contract</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_expense_contract_tree"/>
+           <field name="domain">[]</field>
+           <field name="context">{
+                    'search_default_done_order_filter': 1
+                }
+            </field>
+           <field name="help">Expense Contract details to create of duration Ex. 1 Month......</field>
+        </record>
+
+
+        <!-- Menu items -->
+
+        <!-- Society Expenses Menu Item -->
+        <menuitem name="Expenses" id="society_expense_menu" parent="society_management_main_menu" sequence="2"/>
+        <menuitem action="action_expense_contract" id="expense_contract_menu" parent="society_expense_menu" sequence="1"/>
+
+   </data>
+</openerp>

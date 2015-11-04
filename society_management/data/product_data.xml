@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_soc" model="product.uom.categ">
+            <field name="name">Expenses</field>
+        </record>
+
+        <record id="product_energy" model="product.uom">
+            <field name="name">kW</field>
+            <field name="category_id" eval="product_soc"/>
+            <field name="factor" eval="1.0"/>
+            <field name="rounding" eval="1.0"/>
+        </record>
+
+        <record id="product_product_consultant" model="product.product">
+            <field name="list_price">0.0</field>
+            <field name="standard_price">0.0</field>
+            <field name="use_society" eval="True"/>
+            <field name="uom_id" ref="product_energy"/>
+            <field name="uom_po_id" ref="product_energy"/>
+            <field name="name">Expense</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="False"/>
+        </record>
+
+        <record id="product_soc" model="product.uom.categ">
+            <field name="name">Meter</field>
+        </record>
+
+        <record id="product_energy" model="product.uom">
+            <field name="name">kW</field>
+            <field name="category_id" eval="product_soc"/>
+            <field name="factor" eval="1.0"/>
+            <field name="rounding" eval="1.0"/>
+        </record>
+
+        <record id="product_product_consultant" model="product.product">
+            <field name="list_price">0.0</field>
+            <field name="standard_price">0.0</field>
+            <field name="use_society" eval="True"/>
+            <field name="uom_id" ref="product_energy"/>
+            <field name="uom_po_id" ref="product_energy"/>
+            <field name="name">Consumption</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="False"/>
+        </record>
+    </data>
+</openerp>

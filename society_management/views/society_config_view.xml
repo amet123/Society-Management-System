@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+		<!-- Tree View of Home Water Meter Config Details-->
+        <record id="view_water_meter_config_tree" model="ir.ui.view">
+            <field name="name">water.meter.config.tree</field>
+            <field name="model">water.meter.config</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Water Meter Config Details">
+                	<field name="date_start"/>
+                	<field name="date_stop"/>
+					<field name="per_unit_charge"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View of Water Meter Config Details -->
+        <record id="view_water_meter_config_form" model="ir.ui.view">
+			<field name="name">water.meter.config.form</field>
+            <field name="model">water.meter.config</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Water Meter Config Details">
+					<sheet>
+						<group colspan="4" col="4">
+		                	<field name="date_start"/>
+		                	<field name="date_stop"/>
+		                	<field name="is_active"/>
+							<field name="per_unit_charge" placeholder="Ex. 5.0"/>
+		                </group>
+		                <notebook>
+		                	<page string="Notes">
+		                		<field name="note" nolabel="1" placeholder="Additional Information"/>
+		                	</page>
+		                </notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Water Meter Config Details Menuitems -->
+       	<record id="action_water_meter_config_menu" model="ir.actions.act_window">
+           <field name="name">Meter Config</field>
+           <field name="res_model">water.meter.config</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_water_meter_config_tree"/>
+           <field name="domain">[]</field>
+           <field name="help">Water meter config Details ......</field>
+        </record>
+
+        <!-- Tree View of Meter Meter Details-->
+        <record id="view_meter_meter_tree" model="ir.ui.view">
+            <field name="name">meter.meter.tree</field>
+            <field name="model">meter.meter</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Water Meter" create="false" edit="false">
+					<field name="meter_no" />
+					<field name="home_id"/>
+            		<field name="society_division_id" />
+					<field name="conn_date" />
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View of Meter Meter Config Details -->
+        <record id="view_meter_meter_form" model="ir.ui.view">
+			<field name="name">meter.meter.form</field>
+            <field name="model">meter.meter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Water Meter Number Details" create="false" edit="false">
+					<header>
+						<field name="state" widget="statusbar" statusbar_visible="active,closed"/>
+					</header>
+					<sheet>
+						<h1><field name="meter_no" nolabel="1"/></h1>
+						<group colspan="4" col="4">
+		                	<field name="owner_id"/>
+		                	<field name="home_id" />
+		                	<field name="society_division_id" />
+							<field name="conn_date" />
+							<field name="is_active" />
+							<field name="conn_fees" />
+							<newline/>
+							<field name="replace_meter" attrs="{'invisible':[('state','=','active')]}"/>
+							<newline/>
+							<field name="new_meter_no" attrs="{'invisible':[('state','=','active')]}"/>
+							<field name="replace_meter_date" attrs="{'invisible':[('state','=','active')]}"/>
+							<field name="reason" attrs="{'invisible':[('state','=','active')]}"/>
+							<field name="replace_charge" attrs="{'invisible':[('state','=','active')]}"/>
+		                </group>
+		                <notebook>
+		                	<page string="Notes">
+		                		<field name="note" nolabel="1" placeholder="Additional Information"/>
+		                	</page>
+		                </notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Water Meter Meter Details Menuitems -->
+       	<record id="action_meter_meter_menu" model="ir.actions.act_window">
+           <field name="name">Meter Details</field>
+           <field name="res_model">meter.meter</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_meter_meter_tree"/>
+           <field name="domain">[]</field>
+           <field name="help">Running water meter number records management ......</field>
+        </record>
+
+		<!-- Menu items -->
+
+		<!-- Water Meter Config Menu Item -->
+		<menuitem name="Configuaration" id="water_meter_config_menu" parent="society_management_main_menu" sequence="5"/>
+		<menuitem action="action_water_meter_config_menu" id="water_meter_config_menu7" parent="water_meter_config_menu"/>
+		<!-- Generate Meter Number Menu Item -->
+		<menuitem action="action_meter_meter_menu" id="meter_meter_menu8" parent="water_meter_config_menu"/>
+	</data>
+</openerp>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+		<!-- Tree View of Account Invoice -->
+        <record id="view_account_invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">3</field>
+            <field name="arch" type="xml">
+                <tree string="Home Details" create="false" colors="grey:state=='paid';">
+                	<field name="seq_no"/>
+                	<field name="home_id"/>
+                	<field name="owner_id"/>
+                	<field name="total_expense_amount"/>
+                	<field name="paid_amount"/>
+                	<field name="credit"/>
+                	<field name="debit"/>
+                	<field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View of Account Invoice -->
+        <record id="view_account_invoice_form" model="ir.ui.view">
+			<field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Invoice Details" create="false">
+					<header>
+						<button name="action_paid_invoice" string="Paid" type="object" class="oe_highlight"
+						confirm="Are you sure want to Paid Amount for this order?" states="unpaid"/>
+						<field name="state" widget="statusbar" statusbar_visible="unpaid,paid" />
+					</header>
+					<sheet>
+						<h1>
+	                        <field name="seq_no" class="oe_inline" placeholder="House Number"
+	                        attrs="{'readonly': [('state','in',('unpaid','paid'))]}" />
+	                    </h1>
+						<group>
+							<group colspan="4" col="4">
+                				<field name="home_id" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+                				<newline/>
+                				<field name="owner_id" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+                				<field name="payment_date" required="1" attrs="{'readonly': [('state','=','paid')]}"/>
+                				<field name="start_date" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+                				<field name="end_date" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+			                </group>
+			                <group colspan="4" col="4" string="Total Expense Details">
+                				<field name="soc_electricity_bill" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+                				<field name="guard_salary" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+                				<field name="soc_maintenance" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+			                </group>
+			                <group string="Per House Expense Details" colspan="4" col="4">
+								<label string='This Section Use For Water Meter Reading Details......' style='color:gray;font-size:15px;'/>
+			                	<group colspan="4" col="4">
+									<button name="action_meter_reading" type="object" string="Generate Reading" 
+			                		attrs="{'invisible':[('is_use_water_meter','=', False)]}" />
+									<newline/>
+			                		<field name="is_use_water_meter" attrs="{'readonly': [('state','=','paid')]}"/>
+			                		<field name="meter_no" readonly="1" attrs="{'invisible':[('is_use_water_meter','=', False)]}" />
+			                		<field name="is_remain_reading" invisible="1"/>
+			                		<newline/>
+			                		<newline/>
+				                	<field name="prev_meter_reading" readonly="1" 
+				                	attrs="{'invisible': [('is_use_water_meter','=', False),('is_remain_reading','=',True)]}" />
+				                	<field name="prev_meter_reading_date" readonly="1" 
+				                	attrs="{'invisible': [('is_use_water_meter','=', False),('is_remain_reading','=',True)]}" />
+				                	<field name="curr_meter_reading" attrs="{'required':[('is_remain_reading','=',True)],
+				                	'invisible': [('is_use_water_meter','=', False),('is_remain_reading','=',True)]}" />
+				                	<field name="curr_reading_date" attrs="{'required':[('is_remain_reading','=',True),('is_use_water_meter','=', True)],
+				                	'invisible': [('is_use_water_meter','=', False),('is_remain_reading','=',True)]}" />
+				                	<field name="per_unit_charge" readonly="1"
+				                	attrs="{'invisible': [('is_use_water_meter','=', False),('is_remain_reading','=',True)]}" />
+				                	<field name="total_use_reading" attrs="{'invisible': [('is_use_water_meter','=', False),('is_remain_reading','=',True)]}" />
+				                	<field name="total_charge"
+				                	attrs="{'invisible': [('is_use_water_meter','=', False),('is_remain_reading','=',True)]}" />
+			                	</group>
+			                	<newline/>
+			                	<label string='This Section Use For Expense Of Duration Details......' style='color:gray;font-size:15px;'/>
+								<group colspan="4" col="4">
+			                		<field name="per_home_expenses" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+				                	<field name="total_expense" attrs="{'readonly': [('state','in',('unpaid','paid'))]}"/>
+				                	<field name="total" readonly="1"/>
+				                	<newline/>
+									<field name="pre_credit_amount" readonly="1"/>
+				                	<field name="pre_debit_amount" readonly="1"/>
+			                	</group>
+			                </group>
+					        <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="total_expense_amount" widget='monetary' options="{'currency_field': 'currency_id'}"
+                                attrs="{'readonly': [('state','in',('unpaid','paid'))]}" />
+                                <field name="paid_amount" widget='monetary' options="{'currency_field': 'currency_id'}"
+                                attrs="{'readonly': [('state','=','paid')],'required':[('total_expense_amount','&gt;',0)]}" />
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                               		<label for="credit" />
+                                </div>
+                                <field name="credit" widget='monetary' options="{'currency_field': 'currency_id'}"
+                                attrs="{'readonly': [('state','in',('unpaid','paid'))]}" 
+                                nolabel="1" class="oe_subtotal_footer_separator"/>
+                                <div class="oe_subtotal_footer_separator oe_inline" >
+                               		<label for="debit" />
+                                </div>
+                                <field name="debit" widget='monetary' options="{'currency_field': 'currency_id'}"
+                                attrs="{'readonly': [('state','in',('unpaid','paid'))]}" 
+                                nolabel="1" class="oe_subtotal_footer_separator" />
+                            </group>
+						</group>
+					</sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Search View of Account Invoice -->
+		<record id="view_account_invoice_search" model="ir.ui.view">
+            <field name="name">account.invoice.search</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Search Invoice Details">
+                    <group expand="1" string="Group By...">
+                        <filter string="Paid" icon="terp-personal" domain="[('state','!=','paid')]" 
+                        name="paid_invoice_filter" help="Filter By Paid Invoices" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+		<!-- Account Invoice Menuitems -->
+       	<record id="action_account_invoice" model="ir.actions.act_window">
+           <field name="name">Invoices</field>
+           <field name="res_model">account.invoice</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_account_invoice_tree"/>
+           <field name="domain">[]</field>
+           <field name="context">{'search_default_paid_invoice_filter': 1}</field>
+           <field name="help">Invoices record management of particular houses.......</field>
+        </record>
+
+		<!-- Menu items -->
+
+		<!-- Society Expense Details Menu Item -->
+		<menuitem action="action_account_invoice" id="society_expense_menu4" parent="society_expense_menu" sequence="2"/>
+		
+	</data>
+</openerp>

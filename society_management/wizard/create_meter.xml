@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- Wizard View of Generate Meter Number -->
+        <record id="view_generate_meter_number_wiz" model="ir.ui.view">
+			<field name="name">generate.meter.number.form</field>
+            <field name="model">generate.meter.number</field>
+            <field name="arch" type="xml">
+				<form string="Create Meter Number Details" create="false" edit="false">
+					<sheet>
+						<h1><field name="meter_no" nolabel="1" required="1" placeholder="DS 6507001"/></h1>
+						<group colspan="4" col="4">
+		                	<field name="owner_id" readonly="1"/>
+		                	<field name="home_id" readonly="1"/>
+		                	<field name="society_division_id" readonly="1"/>
+							<field name="conn_date" attrs="{'invisible':[('is_active','=',True)],
+								'required':[('is_active','=',False)]}"/>
+							<field name="conn_fees" attrs="{'invisible':[('is_active','=',True)],
+								'required':[('is_active','=',False)]}"/>
+							<field name="replace_meter_date" attrs="{'invisible':[('is_active','=',False)],
+								'required':[('is_active','=',True)]}"/>
+							<field name="replace_charge" attrs="{'invisible':[('is_active','=',False)],
+								'required':[('is_active','=',True)]}"/>
+							<field name="reason" attrs="{'invisible':[('is_active','=',False)],
+								'required':[('is_active','=',True)]}"/>
+							<field name="is_active" invisible="1"/>
+							<field name="is_replace_meter" invisible="1"/>
+		                </group>
+		                <notebook>
+		                	<page string="Notes">
+		                		<field name="note" nolabel="1" placeholder="Additional Information"/>
+		                	</page>
+		                </notebook>
+		                <footer>
+		                	<button name="action_new_number" string="Create" type="object" class="oe_highlight"/>
+		                    or
+		                    <button string="Cancel" class="oe_link" special="cancel"/>
+		                </footer>
+					</sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Generate Meter Number Action -->
+       	<!--
+								<record id="action_generate_meter_number" model="ir.actions.act_window">
+           <field name="name">Meter Details</field>
+           <field name="res_model">generate.meter.number</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">form</field>
+           <field name="view_id" ref="view_generate_meter_number_wiz"/>
+           <field name="target">new</field>
+        </record>
+		
+								-->
+	</data>
+</openerp>

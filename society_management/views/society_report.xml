@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp> 
+	<data>
+		 <report
+            id="action_society_invoice"
+            model="account.invoice"
+            string="Invoice Details"
+            report_type="qweb-pdf"
+            name="society_management.report_society_invoice"
+            file="society_management.report_society_invoice"
+        />
+		<record id="soc_invoice_paperformat" model="report.paperformat">
+            <field name="name">European A4(Invoice Details)</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">100</field>
+            <field name="page_width">120</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">3</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">3</field>
+            <field name="dpi">80</field>
+        </record>
+		<record id="action_society_invoice" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="soc_invoice_paperformat"/>
+        </record>
+	</data>
+</openerp>
+
