@@ -20,7 +20,7 @@
 
 {
     'name': 'Society Management System',
-    'version': '0.01',
+    'version': '0.02',
     'author': 'Pankaj Goyani',
     'category': 'Expense',
     'website': ['goyanoipankaj13@gmail.com'],
